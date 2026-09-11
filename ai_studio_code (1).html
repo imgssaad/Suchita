@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Question for Suchita ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4e8 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            text-align: center;
+            touch-action: manipulation;
+        }
+
+        #container {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.15);
+            width: 85%;
+            max-width: 350px;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 24px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* The Button Container - Keeps them separated initially */
+        .btn-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* This keeps the buttons apart */
+            position: relative;
+            min-height: 60px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+            /* Disable default mobile behaviors */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none; 
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+            order: 1; /* Ensures Yes stays on one side */
+        }
+
+        #noBtn {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+            order: 2; /* Ensures No stays on the other side */
+            z-index: 999;
+        }
+
+        #success-message {
+            display: none;
+        }
+
+        .heart {
+            color: #ff4d6d;
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #4a4a4a;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <!-- Question Section -->
+        <div id="ask-section">
+            <div class="heart">❤️</div>
+            <h1>Will you go on a date with me Suchita?</h1>
+            <div class="btn-wrap">
+                <button id="yesBtn" onclick="showSuccess()">YES!</button>
+                <button id="noBtn" 
+                        onmouseover="moveNoButton()" 
+                        ontouchstart="moveNoButton()" 
+                        onclick="moveNoButton()">NO</button>
+            </div>
+        </div>
+
+        <!-- Success Message Section -->
+        <div id="success-message">
+            <div class="heart">🎉</div>
+            <h1 style="color: #2b2d42;">Yay! I'm so happy! ❤️</h1>
+            <p>I'll text you the details now, Suchita. I can't wait!</p>
+        </div>
+    </div>
+
+    <script>
+        function moveNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // On the first touch/hover, we switch it to "fixed" so it can jump anywhere
+            if (noBtn.style.position !== 'fixed') {
+                noBtn.style.position = 'fixed';
+            }
+
+            // Calculate random screen positions
+            // Subtracting 100 to keep the button fully visible on screen edges
+            const maxX = window.innerWidth - 100;
+            const maxY = window.innerHeight - 100;
+
+            const randomX = Math.floor(Math.random() * maxX) + 50;
+            const randomY = Math.floor(Math.random() * maxY) + 50;
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function showSuccess() {
+            // Hide the question and show the success message
+            document.getElementById('ask-section').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            
+            // Stop the "No" button from floating around if she already said Yes
+            document.getElementById('noBtn').style.display = 'none';
+            
+            launchConfetti();
+        }
+
+        // Simple mobile-friendly confetti
+        function launchConfetti() {
+            for(let i=0; i<40; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffd166'][Math.floor(Math.random() * 4)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '1000';
+                document.body.appendChild(confetti);
+
+                confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(100vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: 2000 + Math.random() * 2000,
+                    easing: 'ease-out'
+                }).onfinish = () => confetti.remove();
+            }
+        }
+    </script>
+</body>
+</html>
